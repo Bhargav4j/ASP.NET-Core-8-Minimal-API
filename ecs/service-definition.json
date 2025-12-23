@@ -1,0 +1,47 @@
+{
+  "serviceName": "aspnetcore8minimal23-service",
+  "cluster": "{{CLUSTER_NAME}}",
+  "taskDefinition": "aspnetcore8minimal23-task",
+  "desiredCount": 2,
+  "launchType": "FARGATE",
+  "platformVersion": "LATEST",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": ["{{SUBNET_1}}", "{{SUBNET_2}}"],
+      "securityGroups": ["{{SECURITY_GROUP}}"],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "deploymentConfiguration": {
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 50,
+    "deploymentCircuitBreaker": {
+      "enable": true,
+      "rollback": true
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "{{TARGET_GROUP_ARN}}",
+      "containerName": "aspnetcore8minimal23",
+      "containerPort": 8080
+    }
+  ],
+  "healthCheckGracePeriodSeconds": 300,
+  "enableECSManagedTags": true,
+  "propagateTags": "SERVICE",
+  "tags": [
+    {
+      "key": "Environment",
+      "value": "production"
+    },
+    {
+      "key": "Application",
+      "value": "aspnetcore8minimal23"
+    },
+    {
+      "key": "ManagedBy",
+      "value": "ECS"
+    }
+  ]
+}
