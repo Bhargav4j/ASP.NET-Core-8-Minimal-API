@@ -1,0 +1,45 @@
+{
+  "cluster": "{{CLUSTER_NAME}}",
+  "serviceName": "minimalapi-service",
+  "taskDefinition": "minimalapi-task",
+  "loadBalancers": [
+    {
+      "targetGroupArn": "{{TARGET_GROUP_ARN}}",
+      "containerName": "minimalapi-app",
+      "containerPort": 80
+    }
+  ],
+  "desiredCount": 2,
+  "launchType": "FARGATE",
+  "platformVersion": "LATEST",
+  "deploymentConfiguration": {
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 50
+  },
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "{{SUBNET_1}}",
+        "{{SUBNET_2}}"
+      ],
+      "securityGroups": [
+        "{{SECURITY_GROUP}}"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "healthCheckGracePeriodSeconds": 300,
+  "schedulingStrategy": "REPLICA",
+  "enableECSManagedTags": true,
+  "propagateTags": "SERVICE",
+  "tags": [
+    {
+      "key": "Name",
+      "value": "minimalapi-service"
+    },
+    {
+      "key": "Environment",
+      "value": "Production"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ builder.Services.AddStudentApi();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -23,6 +24,9 @@ app.UseHttpsRedirection();
 
 //all api's endpoints
 app.MapStudentApiRoutes();
+
+// Add health check endpoint
+app.MapHealthChecks("/health");
 
 
 app.Run();
