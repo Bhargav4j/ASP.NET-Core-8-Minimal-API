@@ -5,40 +5,40 @@ namespace MinimalAPIProject.Repository;
 public class StudentRepository : IStudentRepository
 {
 
-    public async Task<Student> CreateStudent(Student student)
+    public Task<Student> CreateStudent(Student student)
     {
         StudentMock.students = StudentMock.students.Append(student);
-        return await Task.Run(() => student);
+        return Task.FromResult(student);
     }
 
-    public async Task<bool> DeleteStudent(Guid id)
+    public Task<bool> DeleteStudent(Guid id)
     {
         Student? student = StudentMock.students.FirstOrDefault(x => x.Id == id);
-        if(student is null) return await Task.Run(() => false);
+        if(student is null) return Task.FromResult(false);
         StudentMock.students = StudentMock.students.Where(x => x.Id != id);
-        return await Task.Run(() => true); 
+        return Task.FromResult(true);
     }
 
-    public async Task<IEnumerable<Student>> GetAllStudents()
+    public Task<IEnumerable<Student>> GetAllStudents()
     {
-        return await Task.Run(() => StudentMock.students);
+        return Task.FromResult(StudentMock.students);
     }
 
-    public async Task<Student?> GetStudentById(Guid id)
+    public Task<Student?> GetStudentById(Guid id)
     {
-        return await Task.Run(() => StudentMock.students.FirstOrDefault(x => x.Id == id));
+        return Task.FromResult(StudentMock.students.FirstOrDefault(x => x.Id == id));
     }
 
-    public async Task<bool?> UpdateStudent(Student student)
+    public Task<bool?> UpdateStudent(Student student)
     {
         Student? student_ = StudentMock.students.FirstOrDefault(x => x.Id == student.Id);
-        if(student_ is null) return null;
+        if(student_ is null) return Task.FromResult<bool?>(null);
         student_ = student;
         StudentMock.students = StudentMock.students.Select(stu => {
             if(stu.Id == student_.Id)
                 return student_;
             else return stu;
         });
-        return await Task.Run(() => true);
+        return Task.FromResult<bool?>(true);
     }
 }
