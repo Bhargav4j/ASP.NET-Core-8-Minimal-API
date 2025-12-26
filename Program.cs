@@ -10,6 +10,9 @@ builder.Services.AddStudentApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add health checks for container orchestration
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,5 +27,8 @@ app.UseHttpsRedirection();
 //all api's endpoints
 app.MapStudentApiRoutes();
 
+// Map health check endpoints for container orchestration
+app.MapHealthChecks("/health"); // Liveness probe
+app.MapHealthChecks("/ready");  // Readiness probe
 
 app.Run();
